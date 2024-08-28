@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energia</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <div>
+            <label for="Nome">Nome</label>
+            <select name="Nome" id="Nome">
+                <option value="televisão">televisão</option>
+                <option value="geladeira">geladeira</option>
+                <option value="ventilador">ventilador</option>
+                <option value="iluminação">iluminação</option>
+                <option value="ventilador de teto">ventilador de teto</option>
+                <option value="chuveiro elétrico">chuveiro elétrico</option>
+                <option value="microondas">microondas</option>
+            
+            </select>
+            <label for="potencia">Potencia</label>
+            <input type="number" name="potencia" id="potencia">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" name="quantidade" id="quantidade">
+            <label for="horas">Horas</label>
+            <input type="number" name="horas" id="horas">
+            <label for="bandeira">Bandeira Tarifária</label>
+            <select name="bandeira" id="bandeira">
+                <option value="1">Verde (R$ 0,00 por kWh)</option>
+                <option value="2">Amarela (R$ 0,01 por kWh)</option>
+                <option value="3">Vermelha 1 (R$ 0,30 por kWh)</option>
+                <option value="4">Vermelha 2 (R$ 0,05 por kWh)</option>
+            </select>
+            <img src="" alt="" id="imagem">
+        </div>
+        <div id="resposta"></div>
+        <button onclick="calcular()">Calcular</button>
+    </main>
+</body>
+<script>
+    function calcular() {
+        let nome = document.getElementById("Nome").value.toLowerCase();
+        let potencia = document.getElementById("potencia").value;
+        let quantidade = document.getElementById("quantidade").value;
+        let bandeira = document.getElementById("bandeira").value;
+        let horas = document.getElementById("horas").value;
+        let resposta = document.getElementById("resposta");
+        let imagem = document.getElementById("imagem");
+
+        switch (nome) {
+            case "televisão":
+                imagem.src = "images/televisao.webp";
+                potencia = 150;
+                break;
+            case "geladeira":
+                imagem.src = "images/geladeira.png";
+                potencia = 200;
+                break;
+            case "ventilador":
+                imagem.src = "images/ventilador.png";
+                potencia = 150;
+                break;
+            case "iluminação":
+                imagem.src = "images/iluminacao.png";
+                potencia = 60;
+                break;
+            case "ventilador de teto":
+                imagem.src = "images/ventiladorteto.png";
+                potencia = 200;
+                break;
+            case "chuveiro elétrico":
+                imagem.src = "images/chuveiro.png";
+                potencia = 5500;
+                break;
+            case "microondas":
+                imagem.src = "images/microondas.png";
+                potencia = 1400;
+                break;
+         
+            default:
+                imagem.src = "";
+                resposta.innerHTML = `Aparelho não encontrado.`;
+                return;
+        }
+
+        
+        let consumo = (potencia * horas * quantidade) / 1000;
+        let taxaBandeira = 0;
+
+        switch (bandeira) {
+            case "1":
+                taxaBandeira = 0;
+                break;
+            case "2":
+                taxaBandeira = 0.01;
+                break;
+            case "3":
+                taxaBandeira = 0.30;
+                break;
+            case "4":
+                taxaBandeira = 0.05;
+                break;
+        }
+
+        let total = consumo * 30;
+        let taxaTotal = total * taxaBandeira;
+
+        resposta.innerHTML = `Consumo Mensal: ${total.toFixed(2)} kWh<br>
+        Nome: ${nome}<br>
+        Potência: ${potencia} W<br>
+        Taxa da Bandeira: R$ ${taxaTotal.toFixed(2)}<br>
+        Custo Total: R$ ${(taxaTotal + total).toFixed(2)}<br>`;
+    }
+</script>
+</html>
